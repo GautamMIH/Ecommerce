@@ -71,8 +71,6 @@ if(!isset($_SESSION["uid"])){
 						<li class="divider"></li>
 						<li><a href="customer_order.php" style="text-decoration:none; color:blue;">Orders</a></li>
 						<li class="divider"></li>
-						<li><a href="" style="text-decoration:none; color:blue;">Chnage Password</a></li>
-						<li class="divider"></li>
 						<li><a href="logout.php" style="text-decoration:none; color:blue;">Logout</a></li>
 					</ul>
 				</li>
