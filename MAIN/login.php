@@ -1,7 +1,16 @@
 <?php
 include "db.php";
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+
 session_start();
+
 
 #Login script is begin here
 #If user given credential matches successfully with the data available in database then we will echo string login_success
@@ -14,6 +23,43 @@ if(isset($_POST["email"]) && isset($_POST["password"])){
 	$count = mysqli_num_rows($run_query);
 	//if user record is available in database then $count will be equal to 1
 	if($count == 1){
+				$otp = rand(100000, 999999); // You can adjust the range as per your requirement
+				$_SESSION['otp'] = $otp;
+
+
+
+				$mail = new PHPMailer(true);
+
+				try {
+					// SMTP configuration
+					$mail->isSMTP();
+					$mail->Host = 'sandbox.smtp.mailtrap.io';
+					$mail->SMTPAuth = true;
+					$mail->Username = 'b31507a0b3354d';
+					$mail->Password = 'b7b1c4d2f0c5d5';
+					$mail->SMTPSecure = 'tls';
+					$mail->Port = 2525;
+
+					// Email content
+					$mail->setFrom('your_email@example.com', 'GBuy');
+					$mail->addAddress($email, 'User');
+					$mail->Subject = 'OTP Verification';
+					$mail->Body = 'Dear User'.$email.'Please enter the following OTP code to further proceed with your actions on our website. Your OTP is: ' . $otp;
+
+					// Send the email
+					$mail->send();
+					echo 'Email sent successfully.';
+					header('Location: otpverify.php');
+				} catch (Exception $e) {
+					echo 'Failed to send email. Error: ' . $mail->ErrorInfo;
+				}
+
+
+
+
+
+		// Email configuration
+		
 		$row = mysqli_fetch_array($run_query);
 		$_SESSION["uid"] = $row["user_id"];
 		$_SESSION["name"] = $row["first_name"];
