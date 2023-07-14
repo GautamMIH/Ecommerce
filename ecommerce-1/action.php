@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once('otpcheck.php');
+
 $ip_add = getenv("REMOTE_ADDR");
 include "db.php";
 if(isset($_POST["category"])){
@@ -140,7 +142,7 @@ if(isset($_POST["get_seleted_Category"]) || isset($_POST["selectBrand"]) || isse
 						<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						<b>Product is already added into the cart Continue Shopping..!</b>
 				</div>
-			";//not in video
+			";
 		} else {
 			$sql = "INSERT INTO `cart`
 			(`p_id`, `ip_add`, `user_id`, `qty`) 
@@ -242,7 +244,7 @@ if (isset($_POST["Common"])) {
 	}
 	if (isset($_POST["checkOutDetails"])) {
 		if (mysqli_num_rows($query) > 0) {
-			//display user cart item with "Ready to checkout" button if user is not login
+			//display user cart item with "Ready to checkout" button if user is not 
 			echo "<form method='post' action='login_form.php'>";
 				$n=0;
 				while ($row=mysqli_fetch_array($query)) {
